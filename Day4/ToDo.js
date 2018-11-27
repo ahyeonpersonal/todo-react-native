@@ -1,135 +1,169 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import {View, Text,  StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 
-const {width, height} = Dimensions.get("window");
-
+const {width, height} = Dimensions.get('window');
 export default class ToDo extends Component{
+  
+  /*
+  14 
+  what is TouchableOpacity about?
+  when user completing todo list, uer cna change circle color
+  
+  if) 14-1. user completed (state)
+      14-2. _toggleComplete function change the isCompleted statue opposite (!prevState)
+      14-3. state:true
+      14-4. circle color change -style : style.completedCircle || style.uncompletedCirlce
+      14-5. text color change - style: style.completedText ||style.uncompletedText
+    => user can on/off isEditing state by pressing TouchableOpacity
+  
+  */
+  
+  //14-1 //15-1
+  state={
+    isCompleted:false,
+    isEditing:false
+  }
+  
+  //14-2 create _toggleComplete & onPress={This._toggleComplete}
+  //When user press the TouchableOpacity button, isCompleted reverse the state
+  _toggleComplete=()=>{
+    this.setState(prevstate=>{
+      return({
+        isCompleted: !prevstate.isCompleted //14-3 state: true-> false & false->true
+      });
+    });
+  };
+  
+  _finishEditing=()=>{
+    this.setState({
+      isEditing:false
+    });
+  };
+
+  _startEditing=()=>{
+    this.setState({
+      isEditing:true
+    })
+  }
+
+  render(){
+    //14-4 const iscompleted //15-2 const isEditing
+    const {isCompleted, isEditing} = this.state;
     
-    state={
-        isEditing : false,
-        isCompleted : false
-    }
-    render(){
+    return(
+      <View styles={style.container}>
+        {/*12. import TouchableOpacity*/}
+        <View style={style.column}>
+          <TouchableOpacity onPress={this._toggleComplete}>
+          {/*13. When press touchable Opacity, execute _toggleComplete function 14. create _toggleComplete */}
+            {/* 14-4. changing circle style depends on the isCompleted state */}
+            <View
+              style={[
+                style.circle,
+                isCompleted? style.completedCircle : style.uncompletedCircle
+              ]}
+            />
+          
+          </TouchableOpacity>
+        </View>
+        {/*14-5. changing text color depends on the isCompleted state*/}
+        <Text
+          style={[
+            style.text,
+            isCompleted? style.completedText : style.uncompletedText
+          ]}
+        >
+        {/*11. Creat ToDo.js checks if they works*/}
+        Hello I'm ToDo List</Text>
 
-        const {isCompleted, isEditing} = this.state;
+        {/* 15. Changing icon depends on the state => isEditng
+          if user isEditing :true displaying ✅
+          if user ISeDITING :false displaying ✏️
+          15-1. isEditing state 
+          15-2. const isEditing
+          15-3. Depending on isEditing, displaying different icon
+          {isEditing ? () : ()}
+          15-4. if user press the button, execute _finishEditing || _startEditing
+          15-5. create _finishEditing, _startEditing
+        */}
 
-        return(
-            <View style={style.container}>
-                <View style={style.column}>
-                    <TouchableOpacity onPress={this._toggleComplete} >
-                        <View
-                            style={[
-                                style.circle,
-                                isCompleted ? style.completedCircle : style.uncompletedCircle    
-                            ]}
-                        />
-                        {/* Displaying different style depends on complete/uncomplete statue */}
-                    </TouchableOpacity>    
-                    
-                    <Text 
-                        styles={[
-                            style.text,
-                            isCompleted ? style.completdText : style.uncompletedText
-                        ]}>
-                        Hello I'm a To Do
-                    </Text>
-                </View>
+        
+        {/*15-3 : if user finishEditing, displaying ✅*/}  
+        {/*15-3 : if user startEditing, displaying ✏️*/}
+        {isEditing? (
+          
+          <View styles={style.action}>
+            <TouchableOpacity onPress={this._finishEditing}>
+              <View styles={style.actionContainer}>
+                <Text style={style.actionText}>✅</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          ):(
+          <View styles={style.action}>
+            <TouchableOpacity onPress={this._startEditing}>
+              <View styles={style.actionContainer}>
+                <Text style={style.actionText}>✏️</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View styles={style.actionContainer}>
+                <Text styles={style.actionText}>❌</Text>
+              </View>
+            </TouchableOpacity>
+          </View>      
+        )}
+        
 
-                {isEditing ? (
-                    <View styles={style.action}>
-                        <TouchableOpacity onPressOut = {this._finishEditing}>
-                            <View styles={style.actionContainer}>
-                                <Text styles={style.actionText}>✅</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>        
-                ):(
-                    <View styles={style.action}>
-                        <TouchableOpacity onPressOut = {this._startEditing}>
-                            <View styles={style.actionContainer}>
-                                <Text styles={style.actionText}>✏️</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity>
-                            <View styles={style.actionContainer}>
-                                <Text styles={style.actionText}>❌</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>    
-                )}
-            </View>    
-        );
-    }
-
-    _toggleComplete = ()=>{
-        this.setState(prevstate=>{
-            return({
-                isCompleted : !prevState.isCompleted
-                //when it is opposite status of the previous State, return this function
-            })
-        })
-    }
-
-    _startEditing =()=>{
-        this.setState({
-            isEditing:true
-        });
-    };
-
-    _finishEditing =()=>{
-        this.setSTate({
-            isEditing:false
-        });
-    };
-
+      </View>
+    );
+  }
+  
 }
 
-const style =StyleSheet.create({
-    container : {
-        width: width-50,
-        borderBottom : "#bbb",
-        borderBottomWidth:StyleSheet.harilineWidth,
-        flexDirection:"row"
-    },
-    circle :{
-        width:30,
-        height:30,
-        borderRadius : 15,
-        backgroundColor:"red",
-        borderWidth:3,
-        marginRight:30
-    }.
-    completedCircle:{
-        borderColor:"#bbb"
-    },
-    uncompletedCircle:{
-        borderColor:"#f23657"
-    },
-    text :{
-        fontWeight:"600",
-        fontSize:20,
-        marginVertical:20
-    },
-    completedText:{
-        color:"#bbb",
-        marginVertical :20
-    },
-    uncompletedText:{
-        color:"#353839"
-    },
-    column :{
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent :"space-between",
-        width:width/2
-    },
-    action:{
-        flexDirection:"row"
-    },
-    actionContainer:{
-        marginVertical :10,
-        marginHorizontal:10
-        //margin is for fat fingers lol, though user click not exact emoji, they still can click emoji!
-    }
-});
+const style= StyleSheet.create({
+  container : {
+    width:width-50,
+    borderBottom:'#bbb',
+    borderBottomWidth:StyleSheet.hairlineWidth,
+    flexDirection:"row"
+  },
+  circle:{
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 3,
+    marginRight: 20
+  },
+  completedCircle:{
+    borderColor:'#bbb'
+  },
+  uncompletedCircle:{
+    borderColor:'#f23657'
+  },
+  text :{
+    fontWeight:"600",
+    fontSize:20,
+    marginVertical :20
+  },
+  completedText:{
+    color:'#bbb',
+    marginVertical:20
+  },
+  uncompletedText:{
+    color:'#353839',
+    marginVertical:20
+  },
+   column: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: width / 2
+  },
+  action: {
+    flexDirection: "row"
+  },
+  actionContainer: {
+    marginVertical: 10,
+    marginHorizontal: 10 //for fat fingers
+  },
+})
