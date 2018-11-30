@@ -1,0 +1,25 @@
+#12 Import TouchableOpacity
+ToDo.js #44
+
+#13. When press Tochable Opacity, execute _toggleComplete function
+
+#14. Create _toggleComplete function
+When user completing todo list, user can change circle color
+
+#14-1) user completed (state)
+ToDo.js #22~
+
+#14-2) _toggleComplete function change the isCompleted statue oppositie (!prevState)
+: When user press the TochableOpacity button, isCompleted reverse the state
+ToDo.js #28~
+
+#14-3) state: true -> false & false->true
+ToDo.js #31
+
+#14-4) circle color change => style: style.completedCircle || style.uncompletedCircle
+ToDo.js #39
+
+#14-5) text color change => style : style.completedText || style.uncompletedText
+ToDo.js #55~
+
+=> User can on/off isEditing state by pressing TouchableOpacity
