@@ -1,0 +1,16 @@
+#15. Changing icon depends on the state => isEditing
+=> if user) isEditing : true displaying ✅
+=> if user) isEditing : false displaying ✏️
+
+#15-1. isEditing state
+ToDo.js #24
+
+#15-2. const isEditing
+Todo.js #51
+
+#15-3. Depending 'isEditing', displaying different icon
+{isEditing ? ():() }
+Todo.js #93 ~
+
+#15-4. if user press the button, execute _finishEditing || _startEditing
+#15-5. create _finishEditing, _startEditing
