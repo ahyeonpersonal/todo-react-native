@@ -1,0 +1,34 @@
+#18. Adding ToDo list : 
+App.js #151
+
+Usaully we mapping each of todo list from ToDos.
+for example)
+{toDo.map(todo => <Todo />)}
+because it was an array
+
+But
+since we save toDo as an object, we need to take each value from toDo value first, and mapping it
+for example)
+{Object.values(toDos)} => Array
+
+#19. PropTypes
+ToDo.js #3
+
+#19-1 
+ToDo.js #15~
+
+#19-2 set isCompleted:false
+Todo.js #44
+
+#20. Refactoring start : instead of copying props into the state, create constructor
+
+#20-1.Delete ToDovalue :text
+ToDo.js #76~
+
+#20-2. Create Constructor
+ToDo.js #8~
+
+#20-3. Move state to constructor
+ToDo.js #43 && ToDo.js #10
+
+#21
