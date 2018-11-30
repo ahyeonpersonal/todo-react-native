@@ -1,0 +1,14 @@
+#5 Shadow Effct - import Platform
+App.js #75, #2
+
+#6. Creeate State : newTodo
+App.js #11~
+
+#7. Create _contorlNewTodo function
+App.js #16~
+
+#8 it gets text data from input -> give permission to input
+App.js #19
+
+#9. Give newTodo to render
+App.js #25
