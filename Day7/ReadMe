@@ -31,4 +31,17 @@ ToDo.js #8~
 #20-3. Move state to constructor
 ToDo.js #43 && ToDo.js #10
 
-#21
+#21-1. Create _deleteToDo
+App.js #90. To delete information, it's easy to use Array's of id array
+
+#21-2. Pass this._DeleteToDo to <toDo />
+App.js #150
+
+#21-3. deleteToDo PropTypes ToDo.js #20
+#21-6. id PropTypes ToDo.js #22
+
+#21-4. Passing delete function do <TouchableOpacity /> 
+ToDo.js #172
+
+#21-5. const {deleteToDo, id}  : getting id, delete by props
+ToDo.js #91
