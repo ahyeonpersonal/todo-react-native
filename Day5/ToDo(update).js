@@ -85,7 +85,7 @@ export default class ToDo extends Component{
               multiline={true}
               onChangeText={this._contorlInput}
               returnKeyType={"done"}
-              onBlur={this._finishEditing}
+              onBlur={this._finishEditing}{/*onBlur : this function is when an object loses focus. when the user leaves a form field. onblur event is the opposite of the onfocus event*/}
             />
           ):(
             /*14-5. changing text color depends on the isCompleted state*/
