@@ -1,61 +1,108 @@
-#17-1. State loadedToDos
-App.js #15
-
-#17-2. Mention loadedToDos
-Mention loadedToDos
-App.js #96
-
-#17-3. Import AppLoading
+17-1. Import AppLoading
 App.js #5
+import {AppLoading} from 'expo;
 
-#17-4. Currently since loadedToDos are not ready yet, blank screen
-App.js #99~
-
-#17-5. Create ComponentDidMount
-App.js #19 ~
-
-#17-6. Create _LloadToDos()
-: when after 'componentDidMount' change loadedToDos state as 'true'
-App.js #24
-
-#17-7. When onSubmitEditing is done, _addtTDo()
-App.js #126
-
-#17-8. Create _addToDo()
-App.js #31 ~ 
-
-#17-9 : This is how the newtodo should be look like...
-
-since we keep updating {text} and editing {text} it's better to save as an object
-
-example) if data is saved as an object, when I delete one of to do, i can dele like 'toDos [id][1]' something like this.
-Then whole data in id=1, is deleted
-
-const toDos = {
-1 : {
-  id:1,
-  text : "studying React",
-  isCompleted : false,
-  date:20181130
-  },
-2 : {
-  id:2,
-  text : "studying PHP, SQL",
-  isCompleted : false,
-  date:20181201  
-  }
+17-2. state loadedToDos
+App.js #15
+state = {
+  loadedToDos : false
 }
 
-But if the data is saved as Array, it's hard to delete every single data
+17-3. const loadedToDos under render()
+const {loadedToDos}= this.state;
 
-#17-9-1.
-toDos should be like.... previous toDo state + newToDo
-App.js #37~
+현재는 loadedTodos 거짓임
+그런데 app이 로딩이 되고난 후 componentDidMount 에는 _loadedToDo function을 통해
+loadedToDos가 참이 됨
 
-#17-9-2. import uuidv1
-App.js #6
-
-#17-9-3. Structure newToDoObject = {}
-App.js #60~
+즉 loadedToDos 거짓일 때는 로딩 되기전
+loadedToDos 참일 때는 로딩 된 후
+따라서 loadedToDos가 거짓일 때 return <AppLoading /> 이 됨
 
 
+17-4 ComponeneDidMount 되면 _loadedToDo function 실행
+componentDidMount = ()=>{
+  this._loadedToDo();
+}
+App.js #19
+
+17-5. Create _loadedToDo 로딩 다 되면 loadedToDos 참으로 바꿈
+_loadedToDo=()=>{
+  this.setState({
+    loadedToDos:true
+  })
+}
+App.js #24 ~
+
+17-6. loadedToDos가 거짓이면 <AppLoading />실행하시오
+(그렇기 때문에 loadedToDos는 false가 default 임)
+if(!loadedTodo){
+  return <AppLoading />
+}
+App.js #117~
+
+
+18) Adding newly created todo-list to todo list
+18-1 ) When user submmitEditing on new To Do field, execute _loadedToDo
+<TextInput onSubmitEditing ={this._addToDo} />
+App.js #146
+
+18-2) create _addToDo
+App.js #31 ~
+_addToDo =()=>{
+  const {newToDo} = this.setState;
+  if(newToDo !== "){
+    //if newToDo is not a blank: means if user input something, we need to add this new to do to 'todo'list
+    
+
+    /*19. Adding new todo list start
+        The goal of this is creating each of to do list element with its own id
+        ex)
+        const toDos = {
+            1 :{
+                id:1,
+                text:"studying react",
+                isCompleted: false,
+                date:20181130
+            },
+            2:{
+                id:2,
+                text:"studying PHP",
+                isCompleted:false,
+                date:20181206
+            }
+        }
+
+    */
+
+   
+
+    19-1:   ToDo list = previous todo list + newly updated todo list
+    App.js #37~
+
+    19-2 import uuidv1 
+    App.js #6
+     import uuidv1 from 'uuid/v1';
+     
+     this.setState(prevState =>{
+         const ID = uuidv1();
+         const newToDoObject = {
+             [ID] = {
+                 id:ID,
+                 iscompleted:false,
+                 text:newToDo,
+                 createdAt:Date.now()
+             }
+         };
+         const newState={
+             ...prevState,
+             ...newToDoObject
+         }
+         return {...newState}
+     })
+     
+
+  }else{
+    //if new todo is empty....
+  }
+}
