@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Text, View, StyleSheet, StatusBar, TextInput, Dimensions, Platform, ScrollView } from 'react-native';
 import ToDo from "./ToDo";
 import { Constants } from 'expo';
-import {AppLoading} from "expo"; //17-3: import AppLoading
-import uuidv1 from "uuid/v1"; //17-9-2
+import {AppLoading} from "expo"; //17-1: import AppLoading
+import uuidv1 from "uuid/v1"; //19-2 : import uuidv1
 {/*4. Dimensions for width, height*/}
 const {width, height} = Dimensions.get('window');
 
@@ -12,14 +12,14 @@ export default class App extends React.Component {
   // 6. create newTodo
   state ={
     newTodo : "", //currently it's blank for now
-    loadedToDos : false // 17-1. State loadedToDos
+    loadedToDos : false // 17-2. State loadedToDos
   }
 
-  //17-5 : create componentDidMout
+  //17-4 : when componentDidMount, executing _loadToDos() => 17-5.Create _loadToDos
   componentDidMount =()=>{
     this._loadToDos();
   }
-  //17-6:create _loadToDos()
+  //17-5:create _loadToDos()
   //When after 'componentDidMount' change loadedToDos state as 'true'
   _loadToDos = ()=>{
     this.setState({
@@ -27,18 +27,18 @@ export default class App extends React.Component {
     })
   }
 
-  //17-8
+  //18-2 : create _addToDo
   _addToDo =()=>{
     const{newToDo} = this.state;
     if(newToDo !== ""){
       
       
-      //17-9-1
+      //19-1 : Todo List = previous todo list + newly created todo list
       this.setState(prevState =>{
         //toDos : prevState.toDos + newToDo
   
       /*
-      17-9 the goal : this is how the newtodo should be look like...
+      19: this is how the newtodo should be look like...
       
        const toDos = {
          1 :{
@@ -57,7 +57,7 @@ export default class App extends React.Component {
       */
 
         
-        const ID = uuidv1();//17-9-3
+        const ID = uuidv1();
         const newToDoObject = {
           //how to assing variable as an name : use uuidv1
           [ID] : {
@@ -93,9 +93,27 @@ export default class App extends React.Component {
   
   render() {
     //9. give newTodo to render
-    const {newTodo, loadedToDos}= this.state; //17-2. mention loadedToDos
+    const {newTodo, loadedToDos}= this.state; //17-3. const loadedToDos
     
-    //17-4: Currently since loadedToDos are not ready yet, blank screen
+    /*
+    17. AppLoading 
+    loadedToDo : false ==> <AppLoading />
+    after componentDidMount -> executing _loadedToDo()->loadedToDos: true ==> Loading ToDo App
+
+    loadedToDo : false => Loading Screen loadedToDo거짓이면 로딩 이미지 
+    loadedToDo : true => ToDo App Screen loadedToDo참이면 앱 화면 
+
+    17-2 : state ={loadedToDos : false}
+    17-4 :ComponentDidMount =()=>{
+        this._loadedToDo()
+    }
+    17-5 : create _loadedToDo() :loadedToDos:true
+    17-6 : if (!loadedToDo) => return <AppLoading />
+    */
+    
+    
+    
+    //17-6: when loadedToDos is false, displaying <Apploading />
     if(!loadedToDos){
       return <AppLoading /> 
     }
@@ -122,8 +140,10 @@ export default class App extends React.Component {
             returnKeyType={'done'}
             autoCorrect={false}
             //9 end
-            //17-7: when onSubmitEditing is done, addToDo()
-            onSubmitEditing={this._addToDo} //17-8 : create _addToDo
+            
+            
+            //18-1: when onSubmitEditing is done, addToDo()
+            onSubmitEditing={this._addToDo} //18-1 : create _addToDo
           />
 
           {/*10. Displaying Todo list on ToDo.js -> 11.Create ToDo.js*/}
