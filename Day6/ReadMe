@@ -55,7 +55,7 @@ _addToDo =()=>{
     //if newToDo is not a blank: means if user input something, we need to add this new to do to 'todo'list
     
 
-    /*19. Adding new todo list start
+    /*19. newly created to do strucrue 
         The goal of this is creating each of to do list element with its own id
         ex)
         const toDos = {
